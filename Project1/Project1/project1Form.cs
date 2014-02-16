@@ -53,10 +53,16 @@ namespace Project1
                     case 6:
                         face6++;
                         break;
-
                 }
             }
-            MessageBox.Show(" 1:" + face1.ToString() + " 2:" + face2.ToString() + " 3:" + face3.ToString() + " 4:" + face4.ToString() + " 5:" + face5.ToString() + " 6:" + face6.ToString());
+            //MessageBox.Show(" 1:" + face1.ToString() + " 2:" + face2.ToString() + " 3:" + face3.ToString() + " 4:" + face4.ToString() + " 5:" + face5.ToString() + " 6:" + face6.ToString());
+            this.chart1.Series["Number of Rolls"].Points.AddXY("Face 1", face1);
+            this.chart1.Series["Number of Rolls"].Points.AddXY("Face 2", face2);
+            this.chart1.Series["Number of Rolls"].Points.AddXY("Face 3", face3);
+            this.chart1.Series["Number of Rolls"].Points.AddXY("Face 4", face4);
+            this.chart1.Series["Number of Rolls"].Points.AddXY("Face 5", face5);
+            this.chart1.Series["Number of Rolls"].Points.AddXY("Face 6", face6);
+
         }
 
         private void button2_Click(object sender, EventArgs e)
