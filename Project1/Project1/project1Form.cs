@@ -7,11 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Project1
 {
     public partial class project1Form : Form
     {
+        // series
+        private Series series = new Series();
         public project1Form()
         {
             InitializeComponent();
@@ -56,18 +59,25 @@ namespace Project1
                 }
             }
             //MessageBox.Show(" 1:" + face1.ToString() + " 2:" + face2.ToString() + " 3:" + face3.ToString() + " 4:" + face4.ToString() + " 5:" + face5.ToString() + " 6:" + face6.ToString());
-            this.chart1.Series["Number of Rolls"].Points.AddXY("Face 1", face1);
-            this.chart1.Series["Number of Rolls"].Points.AddXY("Face 2", face2);
-            this.chart1.Series["Number of Rolls"].Points.AddXY("Face 3", face3);
-            this.chart1.Series["Number of Rolls"].Points.AddXY("Face 4", face4);
-            this.chart1.Series["Number of Rolls"].Points.AddXY("Face 5", face5);
-            this.chart1.Series["Number of Rolls"].Points.AddXY("Face 6", face6);
-
+            this.chart1.Series.Remove(series);
+            series = new Series();
+            series.ChartType = SeriesChartType.Column;
+            this.chart1.Series.Add(series);
+            series.Points.AddXY("Face 1", face1);
+            series.Points.AddXY("Face 2", face2);
+            series.Points.AddXY("Face 3", face3);
+            series.Points.AddXY("Face 4", face4);
+            series.Points.AddXY("Face 5", face5);
+            series.Points.AddXY("Face 6", face6);
+            
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("wprin");
+            this.numRolls.Clear();
+            this.chart1.Series.Clear();
+            this.seednum.Clear();
+            
         }
     }
 }
