@@ -191,10 +191,11 @@ namespace Project1
                 if (NumRolls == int.Parse(this.numRolls.Text.ToString()))
                 {
                     NumRolls = 0;
-                    _Faces = null;
+                    Array.Clear(_Faces, 0, _Faces.Length);
                     this.numRolls.Enabled = true;
                     this.continueRoll.Enabled = false;
                     this.goButton.Enabled = true;
+                    this.numRolls.Clear();
                 }
 
         }

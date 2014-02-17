@@ -1,0 +1,9 @@
+C:\Users\Vasim Bukhari\Documents\GitHub\SoftwareSysDev\Project1\Project1\bin\Debug\Project1.exe.config
+C:\Users\Vasim Bukhari\Documents\GitHub\SoftwareSysDev\Project1\Project1\bin\Debug\Project1.exe
+C:\Users\Vasim Bukhari\Documents\GitHub\SoftwareSysDev\Project1\Project1\bin\Debug\Project1.pdb
+C:\Users\Vasim Bukhari\Documents\GitHub\SoftwareSysDev\Project1\Project1\obj\Debug\Project1.csprojResolveAssemblyReference.cache
+C:\Users\Vasim Bukhari\Documents\GitHub\SoftwareSysDev\Project1\Project1\obj\Debug\Project1.project1Form.resources
+C:\Users\Vasim Bukhari\Documents\GitHub\SoftwareSysDev\Project1\Project1\obj\Debug\Project1.Properties.Resources.resources
+C:\Users\Vasim Bukhari\Documents\GitHub\SoftwareSysDev\Project1\Project1\obj\Debug\Project1.csproj.GenerateResource.Cache
+C:\Users\Vasim Bukhari\Documents\GitHub\SoftwareSysDev\Project1\Project1\obj\Debug\Project1.exe
+C:\Users\Vasim Bukhari\Documents\GitHub\SoftwareSysDev\Project1\Project1\obj\Debug\Project1.pdb
