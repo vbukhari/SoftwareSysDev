@@ -16,43 +16,33 @@ namespace Project1
 {
     class aDie
     {
-        public int Low { get; set; }
-        public int High { get; set; }
-        public int? Seed { get; set; }  
-        
+        //properties
+        public int Low { get; set; }    //low value propoerty
+        public int High { get; set; }   //high value 
+        public int? Seed { get; set; }  //store seed number
+        //creating instance of random class
         Random Rand;
-        
+        //Constructor for Die class
         public aDie(int? seed) 
         {
-            Seed = seed;
-            setRange(1, 7);
-
+            Seed = seed;     //set the seed value
+            setRange(1, 7);  //set range, minimum and max value for random
+            //check seed value to select correct constructor type for random
             if (seed.HasValue)
-                Rand = new Random(seed.Value);
+                Rand = new Random(seed.Value);  //Random constructor with seed value 
             else
-                Rand = new Random();
+                Rand = new Random();            //Random constructor without seed value
         }
-
+        //setRange function sets the low and high value for random number generator
         public void setRange(int l, int h)
         {
             Low = l;
             High = h;
         }
 
-
+        //roll function generate the random number between low and high value
         public int roll() 
         {
-            //int num = 0;
-            //if (setSeed == null)
-            //{
-            //   // int seed = Interlocked.Increment(ref seedCounter);
-            //    num = Rand.Next(setLow, setHigh);
-            //}
-            //else
-            //{
-            //    Rand = new Random(setSeed.Value);
-            //}
-            //int num = Rand.Next(setLow, setHigh);
             return Rand.Next(Low, High);
         }
     }

@@ -36,11 +36,12 @@
             this.label3 = new System.Windows.Forms.Label();
             this.numRolls = new System.Windows.Forms.TextBox();
             this.seednum = new System.Windows.Forms.TextBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.displayEach = new System.Windows.Forms.RadioButton();
+            this.diplayAll = new System.Windows.Forms.RadioButton();
+            this.goButton = new System.Windows.Forms.Button();
+            this.clearAll = new System.Windows.Forms.Button();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.continueRoll = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -86,47 +87,47 @@
             this.seednum.Size = new System.Drawing.Size(41, 20);
             this.seednum.TabIndex = 4;
             // 
-            // radioButton1
+            // displayEach
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(59, 161);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(108, 17);
-            this.radioButton1.TabIndex = 5;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Display Each Roll";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.displayEach.AutoSize = true;
+            this.displayEach.Location = new System.Drawing.Point(59, 161);
+            this.displayEach.Name = "displayEach";
+            this.displayEach.Size = new System.Drawing.Size(108, 17);
+            this.displayEach.TabIndex = 5;
+            this.displayEach.TabStop = true;
+            this.displayEach.Text = "Display Each Roll";
+            this.displayEach.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // diplayAll
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(59, 197);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(99, 17);
-            this.radioButton2.TabIndex = 6;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Display All Rolls";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.diplayAll.AutoSize = true;
+            this.diplayAll.Location = new System.Drawing.Point(59, 197);
+            this.diplayAll.Name = "diplayAll";
+            this.diplayAll.Size = new System.Drawing.Size(99, 17);
+            this.diplayAll.TabIndex = 6;
+            this.diplayAll.TabStop = true;
+            this.diplayAll.Text = "Display All Rolls";
+            this.diplayAll.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // goButton
             // 
-            this.button1.Location = new System.Drawing.Point(56, 248);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(151, 39);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "Go!";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.GoBtn_Click);
+            this.goButton.Location = new System.Drawing.Point(26, 241);
+            this.goButton.Name = "goButton";
+            this.goButton.Size = new System.Drawing.Size(96, 42);
+            this.goButton.TabIndex = 7;
+            this.goButton.Text = "Go!";
+            this.goButton.UseVisualStyleBackColor = true;
+            this.goButton.Click += new System.EventHandler(this.GoBtn_Click);
             // 
-            // button2
+            // clearAll
             // 
-            this.button2.Location = new System.Drawing.Point(58, 306);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(149, 37);
-            this.button2.TabIndex = 8;
-            this.button2.Text = "Clear";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.clearAll.Location = new System.Drawing.Point(56, 303);
+            this.clearAll.Name = "clearAll";
+            this.clearAll.Size = new System.Drawing.Size(151, 37);
+            this.clearAll.TabIndex = 8;
+            this.clearAll.Text = "Clear";
+            this.clearAll.UseVisualStyleBackColor = true;
+            this.clearAll.Click += new System.EventHandler(this.clearAll_Click);
             // 
             // chart1
             // 
@@ -139,22 +140,34 @@
             this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Grayscale;
             series1.ChartArea = "ChartArea1";
             series1.Legend = "Legend1";
-            series1.Name = "Number of Rolls";
+            series1.Name = "Series1";
             this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(600, 300);
             this.chart1.TabIndex = 9;
             this.chart1.Text = "chart1";
+            // 
+            // continueRoll
+            // 
+            this.continueRoll.Enabled = false;
+            this.continueRoll.Location = new System.Drawing.Point(140, 241);
+            this.continueRoll.Name = "continueRoll";
+            this.continueRoll.Size = new System.Drawing.Size(96, 42);
+            this.continueRoll.TabIndex = 10;
+            this.continueRoll.Text = "Continue Rolling";
+            this.continueRoll.UseVisualStyleBackColor = true;
+            this.continueRoll.Click += new System.EventHandler(this.continueRoll_Click);
             // 
             // project1Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(896, 390);
+            this.Controls.Add(this.continueRoll);
             this.Controls.Add(this.chart1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.radioButton2);
-            this.Controls.Add(this.radioButton1);
+            this.Controls.Add(this.clearAll);
+            this.Controls.Add(this.goButton);
+            this.Controls.Add(this.diplayAll);
+            this.Controls.Add(this.displayEach);
             this.Controls.Add(this.seednum);
             this.Controls.Add(this.numRolls);
             this.Controls.Add(this.label3);
@@ -175,10 +188,11 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox numRolls;
         private System.Windows.Forms.TextBox seednum;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.RadioButton displayEach;
+        private System.Windows.Forms.RadioButton diplayAll;
+        private System.Windows.Forms.Button goButton;
+        private System.Windows.Forms.Button clearAll;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Button continueRoll;
     }
 }
