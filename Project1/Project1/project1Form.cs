@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.Text.RegularExpressions;
 
 namespace Project1
 {
@@ -22,13 +23,16 @@ namespace Project1
         }
         //Global variable for counting number of rolls of a die
         private static int NumRolls = 0;
+        //private int nSeed = 0;
         //Go button function: when go click this function execute
         private void GoBtn_Click(object sender, EventArgs e)
         {
+            int nRolls = 0;
+            //bool result = int.TryParse(this.numRolls.Text.ToString(), out nRolls);
             //Check to see if textbox for number of rolls is empty
-            if (string.IsNullOrEmpty(this.numRolls.Text) || string.IsNullOrWhiteSpace(this.numRolls.Text))
+            if (string.IsNullOrEmpty(this.numRolls.Text) || string.IsNullOrWhiteSpace(this.numRolls.Text) || !int.TryParse(this.numRolls.Text.ToString(), out nRolls) || Regex.Matches(seednum.Text, @"[a-zA-Z]").Count !=0)
             {
-                MessageBox.Show("Enter Roll Value.");   //Throw this message if empty
+                MessageBox.Show("Invalid input, Please Enter integer value for input!");   //Throw this message if empty
             }
             else
             {
@@ -43,6 +47,7 @@ namespace Project1
                 else
                 {
                     int? seed;  //create integer variable seed
+                    
                     //try initializing seed value from seed number textbox
                     try
                     {
@@ -53,12 +58,15 @@ namespace Project1
                     {
                         seed = null;
                     }
+
+
+
                     //Create die instance of class aDie
                     aDie die = new aDie(seed);
                     //create array of Faces
                     int[] Faces = new int[7];
                     //generate random number with number of times that user specified in number of rolls textbox
-                    for (int i = 0; i < int.Parse(numRolls.Text.ToString()); ++i)
+                    for (int i = 0; i < nRolls; ++i)//int.Parse(numRolls.Text.ToString()); ++i)
                     {
                         //MessageBox.Show(die.roll().ToString());
                         //Use switch statement to increment each face with number of times its been roll
@@ -85,6 +93,7 @@ namespace Project1
                         }
 
                     }
+                    
                     //MessageBox.Show(" 1:" + face1.ToString() + " 2:" + face2.ToString() + " 3:" + face3.ToString() + " 4:" + face4.ToString() + " 5:" + face5.ToString() + " 6:" + face6.ToString());
                     
                     //generating column chart 
