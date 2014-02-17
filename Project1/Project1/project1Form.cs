@@ -44,10 +44,14 @@ namespace Project1
                     this.goButton.Enabled = false;      //Disable the go button
                     this.continueRoll.PerformClick();   //perform continue button
                 }
+                //else if (!int.TryParse(this.seednum.Text.ToString(), out nSeed))
+                //{
+                //    MessageBox.Show("Invalid input");   //Throw this message if empty
+                //}
                 else
                 {
                     int? seed;  //create integer variable seed
-                    
+
                     //try initializing seed value from seed number textbox
                     try
                     {
