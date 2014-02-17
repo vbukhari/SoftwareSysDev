@@ -195,7 +195,7 @@ namespace Project1
                     this.numRolls.Enabled = true;
                     this.continueRoll.Enabled = false;
                     this.goButton.Enabled = true;
-                    this.numRolls.Clear();
+                    //this.numRolls.Clear();
                 }
 
         }
