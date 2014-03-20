@@ -1,4 +1,4 @@
 SoftwareSysDev
 ==============
-Owener: Vasim Bukhari
+Owner: Vasim Bukhari
 These are college course related projectes
