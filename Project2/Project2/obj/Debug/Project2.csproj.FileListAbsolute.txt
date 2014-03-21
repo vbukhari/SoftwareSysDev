@@ -1,0 +1,9 @@
+C:\Users\Vasim Bukhari\Documents\GitHub\SoftwareSysDev\Project2\Project2\bin\Debug\Project2.exe.config
+C:\Users\Vasim Bukhari\Documents\GitHub\SoftwareSysDev\Project2\Project2\bin\Debug\Project2.exe
+C:\Users\Vasim Bukhari\Documents\GitHub\SoftwareSysDev\Project2\Project2\bin\Debug\Project2.pdb
+C:\Users\Vasim Bukhari\Documents\GitHub\SoftwareSysDev\Project2\Project2\obj\Debug\Project2.Properties.Resources.resources
+C:\Users\Vasim Bukhari\Documents\GitHub\SoftwareSysDev\Project2\Project2\obj\Debug\Project2.csproj.GenerateResource.Cache
+C:\Users\Vasim Bukhari\Documents\GitHub\SoftwareSysDev\Project2\Project2\obj\Debug\Project2.exe
+C:\Users\Vasim Bukhari\Documents\GitHub\SoftwareSysDev\Project2\Project2\obj\Debug\Project2.pdb
+C:\Users\Vasim Bukhari\Documents\GitHub\SoftwareSysDev\Project2\Project2\obj\Debug\Project2.csprojResolveAssemblyReference.cache
+C:\Users\Vasim Bukhari\Documents\GitHub\SoftwareSysDev\Project2\Project2\obj\Debug\Project2.aStockForm.resources
