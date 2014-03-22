@@ -16,5 +16,10 @@ namespace Project2
         {
             InitializeComponent();
         }
+
+        private void aStockForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
