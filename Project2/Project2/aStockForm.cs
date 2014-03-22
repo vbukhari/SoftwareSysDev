@@ -2,7 +2,6 @@
  * Software System Development - Project 2
  */
 
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,297 +18,251 @@ namespace Project2
 {
     public partial class aStockForm : Form
     {
-        
-
-        //varibale for storing starting date
+        //Ticker 
+        //variable to store starting date
         private string startDate;
-        //variable for storing ending date
+        //varibale to store ending date
         private string endDate;
-        //variable for storing to display daily, weekly, or monthly chart 
-        private string dwm;
-        //variable for storing low stock
-        double lowest = double.MaxValue;
-        //variable for storing high stock
-        double highest = double.MinValue; 
-        //variable for storing average
-        double average = 0;
-        //variable for storing the sum 
-        int sum = 0;
-        //Creating new Series for chart
-        private Series series = new Series();
+        //variable to store string for daily, weekly, or monthly radio button
+        private string dwmRadio;
+        //variable to store lowest stock
+        private double lowest = double.MaxValue;
+        //variable to store highest stock
+        private double highest = double.MinValue;
+        //generating series for candlestick chart
+        private Series candleStickSeries = new Series();
 
 
         public aStockForm()
         {
             InitializeComponent();
-            //Starting Date
-            //This sets maximum date to current date (Today)
-            dateTimePicker1.MaxDate = DateTime.Today.AddDays(-2);
-            //This determine if its weekend
-            if (dateTimePicker1.Value.DayOfWeek == DayOfWeek.Saturday)
+
+            //setting starting max date (Today)'s date - 2 days
+            startdateTimePicker.MaxDate = DateTime.Today.AddDays(-1);
+            //setting ending max date (Today)'s date
+            enddateTimePicker.MaxDate = DateTime.Today;
+            //Determine if its a weekend, if weekend it set back to weekdays
+            if (startdateTimePicker.Value.DayOfWeek == DayOfWeek.Saturday || enddateTimePicker.Value.DayOfWeek == DayOfWeek.Saturday)
             {
-                dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-1);
+                startdateTimePicker.Value = startdateTimePicker.Value.AddDays(-1);
+                enddateTimePicker.Value = enddateTimePicker.Value.AddDays(-1);
             }
-            else if (dateTimePicker1.Value.DayOfWeek == DayOfWeek.Sunday)
+            else if (startdateTimePicker.Value.DayOfWeek == DayOfWeek.Sunday || enddateTimePicker.Value.DayOfWeek == DayOfWeek.Sunday)
             {
-                dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-2);
+                startdateTimePicker.Value = startdateTimePicker.Value.AddDays(-2);
+                enddateTimePicker.Value = enddateTimePicker.Value.AddDays(-2);
             }
-            //Ending Date
-            //This sets maximum date to current date (Today)
-            dateTimePicker2.MaxDate = DateTime.Today;
-            //This determine if its weekend
-            if (dateTimePicker2.Value.DayOfWeek == DayOfWeek.Saturday)
-            {
-                dateTimePicker2.Value = dateTimePicker2.Value.AddDays(-1);
-            }
-            else if (dateTimePicker2.Value.DayOfWeek == DayOfWeek.Sunday)
-            {
-                dateTimePicker2.Value = dateTimePicker2.Value.AddDays(-2);
-            }
-            //Determine Form boarder style according to max and min value
+            //fixed single line border for aStockForm form
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.AcceptButton = button1;
-            highest = double.MinValue; lowest = double.MaxValue;
-
+            //this allow user to use enter key for go button
+            this.AcceptButton = this.goButton;
         }
 
-        private void aStockForm_Load(object sender, EventArgs e)
+        private void startdateTimePicker_ValueChanged(object sender, EventArgs e)
         {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            lowest = double.MaxValue;
-            highest = double.MinValue;
-            //This check if the ticket TextBox is empty or Null
-            if (String.IsNullOrWhiteSpace(ticker.Text)) 
+            //set startDate to starttimepicker of date string representaton
+            startDate = this.startdateTimePicker.Value.ToShortDateString();
+            //Compare startDate with endDate
+            //if datetime compare return < 0, it change enddateTimepicker value to startdateTimePicker value
+            if (DateTime.Compare(this.enddateTimePicker.Value, this.startdateTimePicker.Value) < 0) 
             {
-                MessageBox.Show("Ticker is Empty"); goto end; 
+                this.enddateTimePicker.Value = this.startdateTimePicker.Value.AddDays(1);
+            }   
+            //if its a weekend change startdateTimePicker value to preveious weekdays
+            if (startdateTimePicker.Value.DayOfWeek == DayOfWeek.Saturday) 
+            {
+                startdateTimePicker.Value = startdateTimePicker.Value.AddDays(-1);
             }
-            //This set value for high and low
-            this.low.Text = "Low: ";
-            this.high.Text = "High: ";
-            //This splits the starting date
-            string[] start_temp = startDate.Split('/');
-            //This splits the ending date
-            string[] end_temp = endDate.Split('/');
-            int startMonth; int.TryParse(start_temp[0], out startMonth);
-            int endMonth; int.TryParse(end_temp[0], out endMonth); 
+            else if (startdateTimePicker.Value.DayOfWeek == DayOfWeek.Sunday)
+            {
+                startdateTimePicker.Value = startdateTimePicker.Value.AddDays(-2);
+            }
+        }
 
-            //This finds the stock
-            string url = "http://ichart.finance.yahoo.com/table.csv?s=" + ticker.Text + "&a=" + (startMonth - 1).ToString() +
-                "&b=" + start_temp[1] + "&c=" + start_temp[2] + "&d=" + (endMonth - 1).ToString() + "&e=" + end_temp[1] + "&f=" + end_temp[2] + "&g=" + dwm + "&ignore=.csv";
-            //varibale reads results from yahoo finance 
-            string result = null;
+        private void enddateTimePicker_ValueChanged(object sender, EventArgs e)
+        {
+            //set endDate to endtimepicker of date string representaton
+            endDate = enddateTimePicker.Value.ToShortDateString();
+            //Compare startDate with endDate
+            //if datetime compare return < 0, it change enddateTimepicker value to startdateTimePicker value
+            if (DateTime.Compare(this.enddateTimePicker.Value, this.startdateTimePicker.Value) < 0)
+            {
+                this.enddateTimePicker.Value = this.startdateTimePicker.Value.AddDays(-1);
+            }
+            //if its a weekend change startdateTimePicker value to preveious weekdays
+            if (enddateTimePicker.Value.DayOfWeek == DayOfWeek.Saturday)
+            {
+                enddateTimePicker.Value = enddateTimePicker.Value.AddDays(-1);
+            }
+            else if (enddateTimePicker.Value.DayOfWeek == DayOfWeek.Sunday)
+            {
+                enddateTimePicker.Value = enddateTimePicker.Value.AddDays(-2);
+            }
+        }
+        //If Daily Radio button selected, this method will be called
+        private void dailyradioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            this.dwmRadio = "d";
+        }
+        //If Weekly Radio button selected, this method will be called
+        private void weeklyradioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            this.dwmRadio = "w";
+        }
+        //If Monthly Radio button selected, this method will be called
+        private void monthlyradioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            this.dwmRadio = "m";
+        }
+        //This method execute when Go Button Clicked
+        private void goButton_Click(object sender, EventArgs e)
+        {
+            //First it check if ticket textbox is null or with empty space
+            if (String.IsNullOrWhiteSpace(tickertextBox.Text))
+            {
+                MessageBox.Show("Please Enter Valid Ticker. (Ticker is either Null or empty WhiteSpace)");
+                goto err;
+            }
+            //Split the starting date and set it to startDateSplit string array 
+            string[] startDateSplit = startDate.Split('/');
+            //Parse the first index of startDateSplit string array to integer and set startingMonth
+            int startingMonth;
+            int.TryParse(startDateSplit[0], out startingMonth);
+            //Split the ending date and set it to endDateSplit string array
+            string[] endDateSplit = endDate.Split('/');
+            //Parse the first index of endDateSplit string array to integer and set endingMonth
+            int endingMonth;
+            int.TryParse(endDateSplit[0], out endingMonth);
+
+            //now using starting and ending date, find stock detail of ticker
+            //setup the url of ticker from yahoo finance 
+            string url = "http://ichart.finance.yahoo.com/table.csv?s=" + tickertextBox.Text + "&a=" + (startingMonth - 1).ToString()
+                + "&b=" + startDateSplit[1] + "&c=" + startDateSplit[2] + "&d=" + (endingMonth - 1).ToString() + "&e=" + endDateSplit[1]
+                + "&f=" + endDateSplit[2] + dwmRadio + "&ignore=.csv";
+            //MessageBox.Show(url);
+            //temporary string variable to store result from yahoo finance
+            string data = null;
             //store each line
-            string[] line = null;
-
+            string[] rows = null;
+            //trying reading from yahoo finance url
             try
             {
-                //Creating instance of Webclient  
-                WebClient client = new WebClient();
-                //Storing downloaded string to result
-                result = client.DownloadString(url);
-                // split at new line
-                line = result.Split('\n');
+                WebClient wc = new WebClient(); //Created instance of WebClient
+                data = wc.DownloadString(url);  //Download data as string from url 
+                rows = data.Split('\n');
+                //MessageBox.Show(data);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-            //variable to store high stock
-            var highStock = new List<double>();
-            //variable to store low stock
-            var lowStock = new List<double>();
-            //Open stock
-            var open = new List<double>();
-            // close stock
-            var close = new List<double>();
-            //variable to store date
-            var date = new List<DateTime>();
-            // variabel to store volume
-            var volume = new List<Int32>();
 
-            //This will clear all 
-            highStock.Clear(); lowStock.Clear(); open.Clear(); close.Clear();
-
-            //Creating instance of aCandlestick class List 
-            List<aCandlestick> candlestick = new List<aCandlestick>(); 
-            //Check if line is null, it skip the line
-            if (line == null) { goto skip; }
-            //Loop through the line to add to aCandlestick class list
-            for (int i = 0; i < line.Length - 1; i++)
+            //check to see if rows is empty or null
+            if (rows == null)
             {
-                if (i == 0) { }
-                else
+                MessageBox.Show("No Data found for " + tickertextBox.Text + ". (Please check the name or date of ticker!)");
+                goto err;
+            }
+
+            //date List variable to store all dates
+            var dateData = new List<DateTime>();
+            //open List variable to store all open data 
+            var openData = new List<double>();
+            //high List varriable to store all high data
+            var highData = new List<double>();
+            //low List variable to store all low data
+            var lowData = new List<double>();
+            //close List variable to store all close data
+            var closeData = new List<double>();
+            //volume List variable to store all volume data
+            var volumeData = new List<Int32>();
+            //Adj_close List variable to store all Adj Close data
+            var adjCloseData = new List<double>();
+
+            //Initially clear all list if there is any data in them
+            openData.Clear();
+            highData.Clear();
+            lowData.Clear();
+            closeData.Clear();
+            volumeData.Clear();
+            adjCloseData.Clear();
+
+            //Create and Initialize new instance of the List<aCandlestick> class
+            List<aCandlestick> acandleStick = new List<aCandlestick>();
+            for (int i = 0; i < rows.Length - 1; i++) 
+            {
+                if (i != 0) 
                 {
-                    string[] stock = line[i].Split(',');
-                    date.Add(Convert.ToDateTime(stock[0]));
-                    open.Add(Convert.ToDouble(stock[1]));
-                    highStock.Add(Convert.ToDouble(stock[2]));
-                    lowStock.Add(Convert.ToDouble(stock[3]));
-                    close.Add(Convert.ToDouble(stock[4]));
-                    volume.Add(Convert.ToInt32(stock[5]));          
-                    candlestick.Add(new aCandlestick(Convert.ToDateTime(stock[0]), Convert.ToDecimal(stock[1]),Convert.ToDecimal(stock[2]), 
-                                                Convert.ToDecimal(stock[3]), Convert.ToDecimal(stock[4]), Convert.ToInt32(stock[5]), Convert.ToDecimal(stock[6])));
+                    //Split each rows where it seperated by comma
+                    string[] stockData = rows[i].Split(',');
+                    //Convert to string to correcnt formate
+                    dateData.Add(Convert.ToDateTime(stockData[0])); 
+                    openData.Add(Convert.ToDouble(stockData[1]));
+                    highData.Add(Convert.ToDouble(stockData[2]));
+                    lowData.Add(Convert.ToDouble(stockData[3]));
+                    closeData.Add(Convert.ToDouble(stockData[4]));
+                    volumeData.Add(Convert.ToInt32(stockData[5]));
+                    
+                    //Adding data to instance of List<aCandlestick> class
+                    acandleStick.Add(new aCandlestick(Convert.ToDateTime(stockData[0]), Convert.ToDecimal(stockData[1]),
+                        Convert.ToDecimal(stockData[2]), Convert.ToDecimal(stockData[3]), Convert.ToDecimal(stockData[4]),
+                        Convert.ToInt32(stockData[5]), Convert.ToDecimal(stockData[6])));
+
                 }
             }
 
-            //Finds the highest stock 
-            highest = highStock.Max();
-            //Finds the lowest stock
-            lowest = lowStock.Min();
-            //Finds the average close stock
-            average = close.Average();
-            //Finds round average to 2 decimal place
-            average = Math.Round(average,2);
-            //Finds the Sum of volume
-            sum = volume.Sum();
-            //Finds up Days
-            var UpDays = candlestick.Where(x => x.Close > x.Open).ToList();
-            //Add data to data to dataGridview1
-            dataGridView1.DataSource = candlestick;
+            //calculating highest and lowest stock
+            lowest = lowData.Min();
+            highest = highData.Max();
 
-            //Add data to green sticks to updays
-            dataGridView2.DataSource = UpDays;
+            //adding to datagidview from acandleStick 
+            dataGridView.DataSource = acandleStick;
 
-            //Auto resize datagridview1
-            dataGridView1.AutoResizeColumn(0);
-            dataGridView1.AutoResizeColumn(1);
-            dataGridView1.AutoResizeColumn(2);
-            dataGridView1.AutoResizeColumn(3);
-            dataGridView1.AutoResizeColumn(4);
-            dataGridView1.AutoResizeColumn(5);
+            dataGridView.AutoResizeColumn(0);
+            dataGridView.AutoResizeColumn(1);
+            dataGridView.AutoResizeColumn(2);
+            dataGridView.AutoResizeColumn(3);
+            dataGridView.AutoResizeColumn(4);
+            dataGridView.AutoResizeColumn(5);
+                        
+            diplayCandlestickChart(dateData, openData, highData, lowData, closeData);
 
-            //Auto resize datagridview2
-            dataGridView2.AutoResizeColumn(0);
-            dataGridView2.AutoResizeColumn(1);
-            dataGridView2.AutoResizeColumn(2);
-            dataGridView2.AutoResizeColumn(3);
-            dataGridView2.AutoResizeColumn(4);
-            dataGridView2.AutoResizeColumn(5);
-            // update high stock
-            this.high.Text += highest;
-            // update low stock
-            this.low.Text += lowest;
-            // update avarage
-            this.Average.Text += average;
-            // update sum of volume
-            this.volSum.Text += sum; 
-            // plot candle stick
-            plotChart(date,highStock, lowStock, open, close);
-            //goto clause to skip line
-            skip:
-            // display error message
-            if (line == null) {
-                this.high.Text += "0";
-                this.low.Text += "0";
-                MessageBox.Show("Error Can not Found!\n Enter Valid Ticker or Valid Date"); 
-            }
-            //goto clause if the ticker is found empty
-        end:
-            int temp = 0;
+
+        err:
+            Console.WriteLine();
         }
 
-
-        private void plotChart(List<DateTime> date, List<double> high, List<double> low, List<double> open, List<double> close)
+        private void diplayCandlestickChart(List<DateTime> dateData, List<double> openData, List<double> highData, List<double> lowData, List<double> closeData) 
         {
-            // remove series object from chart
-            this.chart1.Series.Remove(series);
-            // create new series object
-            series = new Series();
-            // add candlestick chart
-            series.ChartType = SeriesChartType.Candlestick;
-            // add series to chart
-            this.chart1.Series.Add(series);
-            //set lowest value
-            this.chart1.ChartAreas[0].AxisY.Minimum = lowest;
-            // set highest value
-            this.chart1.ChartAreas[0].AxisY.Maximum = highest;
+            //Initialy clear the chart if any object
+            this.candleStickChart.Series.Remove(candleStickSeries);
+            //Creating new series and candlestick chart
+            candleStickSeries = new Series();
+            candleStickSeries.ChartType = SeriesChartType.Candlestick;
+            candleStickChart.Series.Add(candleStickSeries);
+            //set Axis according to high and low value
+            this.candleStickChart.ChartAreas[0].AxisY.Minimum = lowest;
+            this.candleStickChart.ChartAreas[0].AxisY.Maximum = highest;
 
-            // add data into chart
-            for (int i = open.Count() - 1; i >= 0; i--)
+            //int temp = openData.Count()-1;
+            for (int i = openData.Count() - 1; i >= 0; i--)
             {
-                series.Points.AddXY(date[i], high[i], low[i], open[i], close[i]);
+                candleStickSeries.Points.AddXY(dateData[i], openData[i], highData[i], lowData[i], closeData[i]);
             }
-            // add series into chart
-            this.chart1.Series[0].XValueType = ChartValueType.Date;
-            // set color
-            this.chart1.Series[0].Color = Color.DarkBlue;
-            this.chart1.ChartAreas[0].AxisX.MajorGrid.LineWidth = 0;
-            this.chart1.ChartAreas[0].AxisY.MajorGrid.LineWidth = 0;
-            this.series.BorderWidth = 1; // set width 
-            this.chart1.Series[0].CustomProperties = "MaxPixelPointWidth=20";
-            this.chart1.Series[0].ToolTip = "High:#VALY1, Low:#VALY2, Open:#VALY3, Close:#VALY4";
-            // priceupcolor
-            this.chart1.Series[0]["PriceUpColor"] = "Green";
+            
+            this.candleStickChart.Series[0].XValueType = ChartValueType.Date;
+            this.candleStickChart.Series[0].Color = Color.DarkBlue;
+
+            this.candleStickChart.ChartAreas[0].AxisX.MajorGrid.LineWidth = 0;
+            this.candleStickChart.ChartAreas[0].AxisY.MajorGrid.LineWidth = 0;
+            this.candleStickSeries.BorderWidth = 1;
+            this.candleStickChart.Series[0].CustomProperties = "MaxPixelPointWidth=20";
+            this.candleStickChart.Series[0].ToolTip = "High:#VALY1, Low:#VALY2, Open:#VALY3, Close:#VALY4";
+
+            this.candleStickChart.Series[0]["PriceUpColor"] = "Green";
             // pricedownsolor
-            this.chart1.Series[0]["PriceDownColor"] = "Red";
-        }
+            this.candleStickChart.Series[0]["PriceDownColor"] = "Red";
 
-        //starting date method
-        private void startDate_ValueChanged(object sender, EventArgs e)
-        {
-            // get selected date
-            startDate = this.dateTimePicker1.Value.ToShortDateString();
-            // compare start date and end date
-            int compare = DateTime.Compare(this.dateTimePicker2.Value, this.dateTimePicker1.Value);
-            //if compare return -1 then set end date to start date
-            if (compare < 0)
-            {
-                this.dateTimePicker2.Value = this.dateTimePicker1.Value.AddDays(1);
-            }
-
-            // detect if its weekend
-            if (dateTimePicker1.Value.DayOfWeek == DayOfWeek.Saturday)
-            {
-                dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-1);
-            }
-            else if (dateTimePicker1.Value.DayOfWeek == DayOfWeek.Sunday)
-            {
-                dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-2);
-            }
         }
-        //Ending date method
-        private void endDate_ValueChanged(object sender, EventArgs e)
-        {
-            // get selected date
-            endDate = this.dateTimePicker2.Value.ToShortDateString();
-            // compare start date and end date
-            int compare = DateTime.Compare(this.dateTimePicker2.Value, this.dateTimePicker1.Value);
-            // compare is -1 then set start date -1 date
-            if (compare < 0)
-            {
-                this.dateTimePicker1.Value = dateTimePicker2.Value.AddDays(-1);
-            }
-
-            // detect if its weekend
-            if (dateTimePicker2.Value.DayOfWeek == DayOfWeek.Saturday)
-            {
-                dateTimePicker2.Value = dateTimePicker2.Value.AddDays(-1);
-            }
-            else if (dateTimePicker2.Value.DayOfWeek == DayOfWeek.Sunday)
-            {
-                dateTimePicker2.Value = dateTimePicker2.Value.AddDays(-2);
-            }
-        }
-
-        //if user select weekly radio button
-        private void Weekly_CheckedChanged(object sender, EventArgs e)
-        {
-            dwm = "w";
-        }
-        //If user select monthly radio button
-        private void Monthly_CheckedChanged(object sender, EventArgs e)
-        {
-            dwm = "m";
-        }
-        //if user select daily raido button
-        private void Daily_CheckedChanged(object sender, EventArgs e)
-        {
-            dwm = "d";
-        }
-
     }
 }
