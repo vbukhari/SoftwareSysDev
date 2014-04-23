@@ -31,7 +31,9 @@ namespace Project1
             if (seed.HasValue)
                 Rand = new Random(seed.Value);  //Random constructor with seed value 
             else
-                Rand = new Random();            //Random constructor without seed value
+            {
+                Rand = new Random();
+            }
         }
         //setRange function sets the low and high value for random number generator
         public void setRange(int l, int h)
@@ -43,6 +45,7 @@ namespace Project1
         //roll function generate the random number between low and high value
         public int roll() 
         {
+            //Thread.Sleep(5);
             return Rand.Next(Low, High);
         }
     }
