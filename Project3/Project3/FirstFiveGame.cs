@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Project3
 {
-    class FirstFiveGame
+    public class FirstFiveGame
     {
+        public List<String> rollList{ get; set; }
+
     }
 }

@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Project1
+namespace Project3
 {
     class aDie
     {
@@ -43,6 +43,7 @@ namespace Project1
         //roll function generate the random number between low and high value
         public int roll()
         {
+            //Thread.Sleep(5);
             return Rand.Next(Low, High);
         }
     }

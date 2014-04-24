@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="aDie.cs" />
     <Compile Include="aRandomNumberGenerator.cs" />
+    <Compile Include="FirstFiveGame.cs" />
     <Compile Include="Project3Form.cs">
       <SubType>Form</SubType>
     </Compile>
